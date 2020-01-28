@@ -13,7 +13,7 @@ resource "aws_vpc" "wp_vpc" {
     }
 }
 
-# Internet gateway
+# Internet gateway is being created
 resource "aws_internet_gateway" "wp_igw" {
     vpc_id = aws_vpc.wp_vpc.id
     tags = {
@@ -21,7 +21,7 @@ resource "aws_internet_gateway" "wp_igw" {
     }
 }
 
-# Route table
+# Public route table is being created
 resource "aws_route_table" "wp_public_rt" {
     vpc_id = aws_vpc.wp_vpc.id
 
@@ -35,6 +35,7 @@ resource "aws_route_table" "wp_public_rt" {
     }
 }
 
+# Default route table is being assigned as private route table
 resource "aws_default_route_table" "wp_private_rt" {
     default_route_table_id = aws_vpc.wp_vpc.default_route_table_id
 
