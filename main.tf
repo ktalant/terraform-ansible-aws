@@ -124,3 +124,15 @@ resource "aws_subnet" "wp_rds_subnet3" {
       Name = "wp-RdsSubnet-3"
     }
 }
+
+# Subnet groups are being created
+# Rds subnet group
+resource "aws_db_subnet_group" "wp_rds_subnet_group" {
+    name = "wp_rds_subnet_group"
+    subnet_ids = [aws_subnet.wp_rds_subnet1.id,
+                  aws_subnet.wp_rds_subnet2.id,
+                  aws_subnet.wp_rds_subnet3.id]
+    tags = {
+      Name = "wp_rds_subgroup"
+    }
+}
