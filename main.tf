@@ -136,3 +136,14 @@ resource "aws_db_subnet_group" "wp_rds_subnet_group" {
       Name = "wp_rds_subgroup"
     }
 }
+
+# Association subnets
+resource "aws_route_table_association" "wp_public_assoc" {
+    subnet_ids = [aws_subnet.wp_public_subnet1.id, aws_subnet.wp_public_subnet2]
+    route_table_id = aws_route_table.wp_public_rt.id
+}
+
+resource "aws_route_table_association" "wp_private_assoc" {
+    subnet_ids = [aws_subnet.wp_private_subnet1.id, aws_subnet.wp_private_subnet2.id]
+    route_table_id = aws_route_table.wp_private_rt.id
+}
