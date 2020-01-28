@@ -158,3 +158,34 @@ resource "aws_route_table_association" "wp_private_assoc2" {
     subnet_id = aws_subnet.wp_private_subnet2.id
     route_table_id = aws_default_route_table.wp_private_rt.id
 }
+
+# Security groups are being created
+resource "aws_security_group" "wp_bastion_sg" {
+    name = "bastion-ssh-SG"
+    description = "Used for access to bastion host"
+    vpc_id = aws_vpc.wp_vpc.id
+
+    # SSH
+    ingress {
+      from_port = 22
+      to_port = 22
+      protocol = "tcp"
+      cidr_blocks = [var.localip]
+    }
+
+    # Http
+    ingress {
+      from_port = 80
+      to_port = 80
+      protocol = "tcp"
+      cidr_blocks = [var.localip]
+    }
+
+    # egress
+    egress {
+      from_port = 0
+      to_port = 0
+      protocol = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+}
