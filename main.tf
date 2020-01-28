@@ -43,3 +43,83 @@ resource "aws_default_route_table" "wp_private_rt" {
       Name = "wp-PrivateRT"
     }
 }
+
+# Public subent is being deployed
+resource "aws_subnet" "wp_public_subnet1" {
+    vpc_id = aws_vpc.wp_vpc.id
+    cidr_block = var.cidrs["public1"]
+    map_public_ip_on_launch = true
+    availability_zone = data.availability_zones.available.names[0]
+
+    tags = {
+      Name = "wp-PublicSubnet-1"
+    }
+}
+
+resource "aws_subnet" "wp_public_subnet2" {
+    vpc_id = aws_vpc.wp_vpc.id
+    cidr_block = var.cidrs["public2"]
+    map_public_ip_on_launch = true
+    availability_zone = data.availability_zones.available.names[1]
+
+    tags = {
+      Name = "wp-PublicSubnet-2"
+    }
+}
+
+# Next 2 subnets are private subnets 
+resource "aws_subnet" "wp_private_subnet1" {
+    vpc_id = aws_vpc.wp_vpc.id
+    cidr_block = var.cidrs["private1"]
+    map_public_ip_on_launch = false
+    availability_zone = data.availability_zones.available.names[0]
+
+    tags = {
+      Name = "wp-PrivateSubnet-1"
+    }
+}
+
+resource "aws_subnet" "wp_private_subnet2" {
+    vpc_id = aws_vpc.wp_vpc.id
+    cidr_block = var.cidrs["private2"]
+    map_public_ip_on_launch = false
+    availability_zone = data.availability_zones.available.names[1]
+
+    tags = {
+      Name = "wp-PrivateSubnet-2"
+    }
+}
+
+# Next 3 subnet resources are for private subnets for our Database
+resource "aws_subnet" "wp_rds_subnet1" {
+    vpc_id = aws_vpc.wp_vpc.id
+    cidr_block = var.cidrs["rds1"]
+    map_public_ip_on_launch = false
+    availability_zone = data.availability_zones.available.names[0]
+
+    tags = {
+      Name = "wp-RdsSubnet-1"
+    }
+}
+
+resource "aws_subnet" "wp_rds_subnet2" {
+    vpc_id = aws_vpc.wp_vpc.id
+    cidr_block = var.cidrs["rds2"]
+    map_public_ip_on_launch = false
+    availability_zone = data.availability_zones.available.names[1]
+
+    tags = {
+      Name = "wp-RdsSubnet-2"
+    }
+}
+
+resource "aws_subnet" "wp_rds_subnet3" {
+    vpc_id = aws_vpc.wp_vpc.id
+    cidr_block = var.cidrs["rds3"]
+    map_public_ip_on_launch = false
+    availability_zone = data.availability_zones.available.names[2]
+
+    tags = {
+      Name = "wp-RdsSubnet-3"
+    }
+}
