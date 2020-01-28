@@ -3,6 +3,8 @@ provider "aws" {
   profile = var.aws_profile
 }
 
+data "aws_availability_zones" "available" {}
+
 resource "aws_vpc" "wp_vpc" {
     cidr_block = var.vpc_cidr
     enable_dns_hostnames = true
@@ -67,7 +69,7 @@ resource "aws_subnet" "wp_public_subnet2" {
     }
 }
 
-# Next 2 subnets are private subnets 
+# Next 2 subnets are private subnets
 resource "aws_subnet" "wp_private_subnet1" {
     vpc_id = aws_vpc.wp_vpc.id
     cidr_block = var.cidrs["private1"]
