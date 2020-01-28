@@ -3,8 +3,7 @@ provider "aws" {
   profile = var.aws_profile
 }
 
-data "aws_availability_zones" "available" {}
-
+# New VPC is being deployed
 resource "aws_vpc" "wp_vpc" {
     cidr_block = var.vpc_cidr
     enable_dns_hostnames = true
@@ -51,7 +50,7 @@ resource "aws_subnet" "wp_public_subnet1" {
     vpc_id = aws_vpc.wp_vpc.id
     cidr_block = var.cidrs["public1"]
     map_public_ip_on_launch = true
-    availability_zone = data.availability_zones.available.names[0]
+    availability_zone = data.aws_availability_zones.available.names[0]
 
     tags = {
       Name = "wp-PublicSubnet-1"
@@ -62,7 +61,7 @@ resource "aws_subnet" "wp_public_subnet2" {
     vpc_id = aws_vpc.wp_vpc.id
     cidr_block = var.cidrs["public2"]
     map_public_ip_on_launch = true
-    availability_zone = data.availability_zones.available.names[1]
+    availability_zone = data.aws_availability_zones.available.names[1]
 
     tags = {
       Name = "wp-PublicSubnet-2"
@@ -74,7 +73,7 @@ resource "aws_subnet" "wp_private_subnet1" {
     vpc_id = aws_vpc.wp_vpc.id
     cidr_block = var.cidrs["private1"]
     map_public_ip_on_launch = false
-    availability_zone = data.availability_zones.available.names[0]
+    availability_zone = data.aws_availability_zones.available.names[0]
 
     tags = {
       Name = "wp-PrivateSubnet-1"
@@ -85,7 +84,7 @@ resource "aws_subnet" "wp_private_subnet2" {
     vpc_id = aws_vpc.wp_vpc.id
     cidr_block = var.cidrs["private2"]
     map_public_ip_on_launch = false
-    availability_zone = data.availability_zones.available.names[1]
+    availability_zone = data.aws_availability_zones.available.names[1]
 
     tags = {
       Name = "wp-PrivateSubnet-2"
@@ -97,7 +96,7 @@ resource "aws_subnet" "wp_rds_subnet1" {
     vpc_id = aws_vpc.wp_vpc.id
     cidr_block = var.cidrs["rds1"]
     map_public_ip_on_launch = false
-    availability_zone = data.availability_zones.available.names[0]
+    availability_zone = data.aws_availability_zones.available.names[0]
 
     tags = {
       Name = "wp-RdsSubnet-1"
@@ -108,7 +107,7 @@ resource "aws_subnet" "wp_rds_subnet2" {
     vpc_id = aws_vpc.wp_vpc.id
     cidr_block = var.cidrs["rds2"]
     map_public_ip_on_launch = false
-    availability_zone = data.availability_zones.available.names[1]
+    availability_zone = data.aws_availability_zones.available.names[1]
 
     tags = {
       Name = "wp-RdsSubnet-2"
@@ -119,7 +118,7 @@ resource "aws_subnet" "wp_rds_subnet3" {
     vpc_id = aws_vpc.wp_vpc.id
     cidr_block = var.cidrs["rds3"]
     map_public_ip_on_launch = false
-    availability_zone = data.availability_zones.available.names[2]
+    availability_zone = data.aws_availability_zones.available.names[2]
 
     tags = {
       Name = "wp-RdsSubnet-3"
