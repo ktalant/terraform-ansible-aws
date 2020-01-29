@@ -250,7 +250,7 @@ resource "aws_security_group" "wp_rd_sg" {
     }
 }
 
-# VPC Endpoint
+# -----------VPC Endpoint-----------
 resource "aws_vpc_endpoint" "wp_private-s3_endpoint" {
     vpc_id = aws_vpc.wp_vpc.id
     service_name = "com.amazonaws.${var.aws_region}.s3"
@@ -270,5 +270,20 @@ resource "aws_vpc_endpoint" "wp_private-s3_endpoint" {
     POLICY
     tags = {
       Name = "wp-S3-Endpoint"
+    }
+}
+
+# -----------S3 bucket being created--------------
+resource "random_id" "s3_random_id" {
+    byte_length = 2
+}
+
+resource "aws_s3_bucket" "wp_code_bucket" {
+    bucket = "${var.bucketname}-${random_id.wp_code_bucket.dec}"
+    acl = "private"
+    force_destroy = true
+
+    tags = {
+      Name = "wp-code-bucket"
     }
 }

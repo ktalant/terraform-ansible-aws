@@ -15,3 +15,5 @@ cidrs = {
 }
 
 localip = "54.214.214.55/32"
+
+bucketname = "wp-code-bucket"
