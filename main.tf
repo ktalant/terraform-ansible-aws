@@ -279,7 +279,7 @@ resource "random_id" "s3_random_id" {
 }
 
 resource "aws_s3_bucket" "wp_code_bucket" {
-    bucket = "${var.bucketname}-${random_id.wp_code_bucket.dec}"
+    bucket = "${var.bucketname}-${random_id.s3_random_id.dec}"
     acl = "private"
     force_destroy = true
 
