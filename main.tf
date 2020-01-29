@@ -292,8 +292,8 @@ resource "aws_s3_bucket" "wp_code_bucket" {
 resource "aws_db_instance" "wp_db" {
     allocated_storage = 10
     engine = "mysql"
-    engine_version = "5.6.27"
-    instance_class = var.instance_class 
+    engine_version = "5.6.44"
+    instance_class = var.instance_class
     name = var.db_name
     username = var.dbuser
     password = var.dbpassword
