@@ -1,0 +1,5 @@
+provisioner "local-exec" {
+  command = "aws ec2 wait instance-status-ok --instance_ids ${aws_instance.wp_dev.id} --profile jasmine && \
+  ansible-playbook -i aws_hosts wordpress.yml"
+}
+}

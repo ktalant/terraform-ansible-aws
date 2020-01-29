@@ -16,3 +16,5 @@ variable "dbpassword" {}
 variable "keypath" {}
 variable "dev_ami" {}
 variable "dev_instance_type" {}
+
+variable "domain_name" {}

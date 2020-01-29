@@ -24,3 +24,10 @@ instance_class = "db.t2.micro"
 db_name = "talant_db"
 dbuser = "talant"
 dbpassword = "talant123456"
+
+# dev instance variables
+keypath = "~/.ssh/id_rsa.pub"
+dev_ami
+dev_instance_type = "t2.micro"
+
+domain_name = "talantzon"
