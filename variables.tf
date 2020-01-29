@@ -8,3 +8,5 @@ variable "cidrs" {
 }
 variable "localip" {}
 variable "bucketname" {}
+variable "instance_class" {}
+variable ""

@@ -16,4 +16,11 @@ cidrs = {
 
 localip = "54.214.214.55/32"
 
+# bucket variables
 bucketname = "wp-code-bucket"
+
+# rds variables
+instance_class = "db.t2.micro"
+db_name = "talant_db"
+dbuser = "talant"
+dbpasswor = "talant123456"
