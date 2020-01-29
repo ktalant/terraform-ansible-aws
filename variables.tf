@@ -12,3 +12,7 @@ variable "instance_class" {}
 variable "db_name" {}
 variable "dbuser" {}
 variable "dbpassword" {}
+
+variable "keypath" {}
+variable "dev_ami" {}
+variable "dev_instance_type" {}

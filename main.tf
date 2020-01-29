@@ -160,9 +160,9 @@ resource "aws_route_table_association" "wp_private_assoc2" {
 }
 
 # Security groups are being created
-resource "aws_security_group" "wp_bastion_sg" {
-    name = "bastion-ssh-SG"
-    description = "Used for access to bastion host"
+resource "aws_security_group" "wp_dev_sg" {
+    name = "dev-ssh-SG"
+    description = "Used for access to dev host"
     vpc_id = aws_vpc.wp_vpc.id
 
     # SSH
@@ -246,7 +246,7 @@ resource "aws_security_group" "wp_rd_sg" {
       protocol = "tcp"
       security_groups = [aws_security_group.wp_public_sg.id,
                          aws_security_group.wp_private_sg.id,
-                         aws_security_group.wp_bastion_sg.id]
+                         aws_security_group.wp_dev_sg.id]
     }
 }
 
@@ -300,4 +300,28 @@ resource "aws_db_instance" "wp_db" {
     db_subnet_group_name = aws_db_subnet_group.wp_rds_subnet_group.name
     vpc_security_group_ids = [aws_security_group.wp_rd_sg.id]
     skip_final_snapshot = true
+}
+
+#-----------dev server being created--------------
+resource "aws_key_pair" "wp_keypair" {
+    key_name = var.key_name
+    public_key = file(var.key_path)
+}
+resource "aws_instance" "wp_dev" {
+    instance_type = var.dev_instance_type
+    ami = var.dev_ami
+
+    tags = {
+      Name = "wp-dev-server"
+    }
+    key_name = aws_key_pair.wp_keypair.id
+    vpc_security_group_ids = [aws_security_group.wp_dev_sg.id]
+    iam_instance_profile = aws_iam_instance_profile.s3_access_profile.id
+    subnet_id = aws_subnet.wp_public_subnet1.id
+
+    provisioner "local-exec" {
+      command = <<-EOD
+      cat <<EOF > aws_hosts
+
+    }
 }
