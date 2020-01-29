@@ -254,7 +254,8 @@ resource "aws_security_group" "wp_rd_sg" {
 resource "aws_vpc_endpoint" "wp_private-s3_endpoint" {
     vpc_id = aws_vpc.wp_vpc.id
     service_name = "com.amazonaws.${var.aws_region}.s3"
-    route_table_ids = [aws_vpc.wp_vpc.main_route_table_id, aws_vpc.wp_public_rt.id]
+    route_table_ids = [aws_vpc.wp_vpc.main_route_table_id,
+      aws_vpc.wp_vpc.wp_public_rt.id]
     policy = <<-POLICY
     {
       "Statement": [
