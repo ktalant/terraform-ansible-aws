@@ -268,4 +268,7 @@ resource "aws_vpc_endpoint" "wp_private-s3_endpoint" {
       ]
     }
     POLICY
+    tags = {
+      Name = "wp-S3-Endpoint"
+    }
 }
