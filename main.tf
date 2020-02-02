@@ -331,5 +331,4 @@ resource "aws_instance" "wp_dev" {
       EOF
       EOD
     }
-
-    
+}
