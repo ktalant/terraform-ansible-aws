@@ -13,8 +13,8 @@ variable "db_name" {}
 variable "dbuser" {}
 variable "dbpassword" {}
 
-variable "keypath" {}
-variable "dev_ami" {}
+variable "key_path" {}
+variable "key_name" {}
 variable "dev_instance_type" {}
 
 variable "domain_name" {}
