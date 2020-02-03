@@ -303,13 +303,33 @@ resource "aws_db_instance" "wp_db" {
 }
 
 #-----------dev server being created--------------
+data "aws_ami" "centos" {
+owners      = ["679593333241"]
+most_recent = true
+
+  filter {
+      name   = "name"
+      values = ["CentOS Linux 7 x86_64 HVM EBS *"]
+  }
+
+  filter {
+      name   = "architecture"
+      values = ["x86_64"]
+  }
+
+  filter {
+      name   = "root-device-type"
+      values = ["ebs"]
+  }
+}
+
 resource "aws_key_pair" "wp_keypair" {
     key_name = var.key_name
     public_key = file(var.key_path)
 }
 resource "aws_instance" "wp_dev" {
     instance_type = var.dev_instance_type
-    ami = var.dev_ami
+    ami = data.aws_ami.centos.id
 
     tags = {
       Name = "wp-dev-server"

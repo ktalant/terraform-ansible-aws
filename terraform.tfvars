@@ -26,7 +26,7 @@ dbuser = "talant"
 dbpassword = "talant123456"
 
 # dev instance variables
-keypath = "~/.ssh/id_rsa.pub"
+key_path = "~/.ssh/id_rsa.pub"
 
 dev_instance_type = "t2.micro"
 
