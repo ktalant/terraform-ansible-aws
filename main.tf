@@ -320,6 +320,10 @@ resource "aws_instance" "wp_dev" {
     subnet_id = aws_subnet.wp_public_subnet1.id
 
     provisioner "local-exec" {
+      command = "aws ec2 wait instance-status-ok --instance-ids ${aws_instance.wp_dev.id}"
+    }
+
+    provisioner "local-exec" {
       # command = "aws ec2 wait instance-status-ok --instance-ids ${aws_instance.wp_dev.id}"
       command = <<-EOD
       cat <<EOF > aws_hosts
