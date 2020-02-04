@@ -1,5 +1,5 @@
-aws_region = "us-east-1"
-aws_profile = "jasmine"
+aws_region = "us-west-1"
+# aws_profile = "jasmine"
 
 vpc_cidr = "192.168.0.0/16"
 
@@ -14,7 +14,7 @@ cidrs = {
   rds3 = "192.168.23.0/24"
 }
 
-localip = "54.214.214.55/32"
+localip = "0.0.0.0/0"
 
 # bucket variables
 bucketname = "wp-code-bucket"
