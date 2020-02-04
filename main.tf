@@ -319,19 +319,19 @@ resource "aws_instance" "wp_dev" {
     iam_instance_profile = aws_iam_instance_profile.s3_access_profile.id
     subnet_id = aws_subnet.wp_public_subnet1.id
 
-  
 
-    # provisioner "local-exec" {
-    #   # command = "aws ec2 wait instance-status-ok --instance-ids ${aws_instance.wp_dev.id}"
-    #   command = <<-EOD
-    #   cat <<EOF > aws_hosts
-    #   [dev]
-    #   ${aws_instance.wp_dev.public_ip}
 
-    #   [dev:vars]
-    #   s3code=${aws_s3_bucket.wp_code_bucket.bucket}
-    #   domain=${var.domain_name}
-    #   EOF
-    #   EOD
-    # }
+    provisioner "local-exec" {
+      # command = "aws ec2 wait instance-status-ok --instance-ids ${aws_instance.wp_dev.id}"
+      command = <<-EOD
+      cat <<EOF > aws_hosts
+      [dev]
+      ${aws_instance.wp_dev.public_ip}
+
+      [dev:vars]
+      s3code=${aws_s3_bucket.wp_code_bucket.bucket}
+      domain=${var.domain_name}
+      EOF
+      EOD
+    }
 }
