@@ -303,13 +303,14 @@ resource "aws_db_instance" "wp_db" {
 }
 
 #-----------dev server being created--------------
+
 resource "aws_key_pair" "wp_keypair" {
     key_name = var.key_name
     public_key = file(var.key_path)
 }
 resource "aws_instance" "wp_dev" {
     instance_type = var.dev_instance_type
-    ami = var.ami_id
+    ami = data.aws_ami.centos.id
 
     tags = {
       Name = "wp-dev-server"
@@ -333,5 +334,9 @@ resource "aws_instance" "wp_dev" {
       domain=${var.domain_name}
       EOF
       EOD
+    }
+
+    provisioner "local-exec" {
+      command = "aws ec2 wait instance-status-ok --instance-ids ${aws_instance.wp_dev.id} ansible-playbook -i aws_hosts worpdress.yml "
     }
 }
