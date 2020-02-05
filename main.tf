@@ -310,7 +310,7 @@ resource "aws_key_pair" "wp_keypair" {
 }
 resource "aws_instance" "wp_dev" {
     instance_type = var.dev_instance_type
-    ami = data.aws_ami.centos.id
+    ami = var.ami_id
 
     tags = {
       Name = "wp-dev-server"
@@ -336,7 +336,7 @@ resource "aws_instance" "wp_dev" {
       EOD
     }
 
-    provisioner "local-exec" {
-      command = "aws ec2 wait instance-status-ok --instance-ids ${aws_instance.wp_dev.id} ansible-playbook -i aws_hosts worpdress.yml "
-    }
+    # provisioner "local-exec" {
+    #   command = "aws ec2 wait instance-status-ok --instance-ids ${aws_instance.wp_dev.id} ansible-playbook -i aws_hosts worpdress.yml "
+    # }
 }

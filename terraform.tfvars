@@ -29,6 +29,6 @@ dbpassword = "talant123456"
 key_name = "devkey"
 key_path = "/root/.ssh/id_rsa.pub"
 
-dev_instance_type = "t2.micro"
-# ami_id = "ami-062f7200baf2fa504"
+dev_instance_type = "t2.medium"
+ami_id = "ami-062f7200baf2fa504"
 domain_name = "talantzon"
