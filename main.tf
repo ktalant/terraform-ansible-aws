@@ -273,7 +273,7 @@ resource "aws_vpc_endpoint" "wp_private-s3_endpoint" {
     }
 }
 
-# -----------S3 bucket being created--------------
+#-----------S3 bucket being created--------------
 resource "random_id" "s3_random_id" {
     byte_length = 2
 }
@@ -288,6 +288,15 @@ resource "aws_s3_bucket" "wp_code_bucket" {
     }
 }
 
+resource "aws_s3_bucket" "lb_logs" {
+    bucket = "lb-logs-${random_id.s3_random_id.dec}"
+    acl = "public"
+    force_destroy = true
+
+    tags = {
+      Name = "lb-logs-bucket"
+    }
+}
 #-----------RDS instance being created--------------
 resource "aws_db_instance" "wp_db" {
     allocated_storage = 10
@@ -336,7 +345,46 @@ resource "aws_instance" "wp_dev" {
       EOD
     }
 
-    # provisioner "local-exec" {
-    #   command = "aws ec2 wait instance-status-ok --instance-ids ${aws_instance.wp_dev.id} ansible-playbook -i aws_hosts worpdress.yml "
-    # }
+    provisioner "local-exec" {
+      command = "aws ec2 wait instance-status-ok --instance-ids ${aws_instance.wp_dev.id} --profile jasmine && ansible-playbook -i aws_hosts worpdress.yml "
+    }
 }
+
+# --------------- Load Balancer ---------------------------
+resource "aws_lb" "wp_alb" {
+  name               = "${var.domain_name}-alb"
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.wp_public_sg.id]
+  subnets            = [aws_subnet.wp_public_subnet1.id, aws_subnet.wp_public_subnet2.id]
+
+  enable_deletion_protection = true
+
+  access_logs {
+    bucket  = aws_s3_bucket.lb_logs.bucket
+    prefix  = "alb-logs"
+    enabled = true
+  }
+  enable_cross_zone_load_balancing = true
+  idle_timeout = 400
+
+  tags = {
+    Name = "wp-alb"
+  }
+}
+
+resource "aws_lb_listener" "wp_alb_listener" {
+  load_balancer_arn = aws_lb.wp_alb.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "80"
+      protocol    = "HTTP"
+      status_code = "HTTP_301"
+    }
+  }
+}
+
