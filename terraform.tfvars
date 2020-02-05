@@ -1,5 +1,5 @@
 aws_region = "us-west-1"
-# aws_profile = "jasmine"
+aws_profile = "jasmine"
 
 vpc_cidr = "192.168.0.0/16"
 
